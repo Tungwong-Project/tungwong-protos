@@ -1,6 +1,5 @@
-# Generated code
-gen/
-*.pb.go
+# Generated code - commit for distribution
+# gen/
 
 # IDE
 .vscode/
