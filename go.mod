@@ -1,3 +1,3 @@
-module github.com/phnormalguy/tungwong-protos
+module github.com/Tungwong-Project/tungwong-protos
 
 go 1.22
