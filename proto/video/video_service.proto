@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package video.v1;
+
+option go_package = "github.com/phnormalguy/tungwong-protos/gen/go/video/v1;videov1";
+
+import "google/protobuf/timestamp.proto";
+
+// VideoManagementService defines the gRPC contract between video-worker and video-management-api
+service VideoManagementService {
+  // UpdateVideoStatus - Called by worker when processing completes successfully
+  rpc UpdateVideoStatus(UpdateVideoStatusRequest) returns (UpdateVideoStatusResponse);
+  
+  // HandleVideoFailure - Called by worker when processing fails or needs rollback
+  rpc HandleVideoFailure(HandleVideoFailureRequest) returns (HandleVideoFailureResponse);
+  
+  // MarkVideoProcessing - Called by worker when it starts processing (optional, for tracking)
+  rpc MarkVideoProcessing(MarkVideoProcessingRequest) returns (MarkVideoProcessingResponse);
+}
+
+// UpdateVideoStatusRequest - Sent when worker successfully completes encoding
+message UpdateVideoStatusRequest {
+  string video_id = 1;                           // UUID of the video
+  string status = 2;                             // "done" or "processing"
+  string hls_path = 3;                           // Path to the generated .m3u8 file
+  string thumbnail_path = 4;                     // Path to the generated thumbnail (optional)
+  int32 duration = 5;                            // Video duration in seconds
+  google.protobuf.Timestamp completed_at = 6;    // When processing completed
+}
+
+message UpdateVideoStatusResponse {
+  bool success = 1;
+  string message = 2;
+  Video video = 3;  // Return updated video details
+}
+
+// HandleVideoFailureRequest - Sent when worker encounters an error
+message HandleVideoFailureRequest {
+  string video_id = 1;                           // UUID of the video
+  string failure_reason = 2;                     // Error message/details
+  string error_code = 3;                         // Error code for categorization
+  bool should_retry = 4;                         // Whether this failure is retryable
+  int32 retry_count = 5;                         // Current retry attempt
+  google.protobuf.Timestamp failed_at = 6;       // When failure occurred
+}
+
+message HandleVideoFailureResponse {
+  bool success = 1;
+  string message = 2;
+  bool should_retry = 3;  // Server decision: retry or give up
+  int32 retry_after_seconds = 4;  // Suggested delay before retry
+}
+
+// MarkVideoProcessingRequest - Worker notifies it started processing (heartbeat)
+message MarkVideoProcessingRequest {
+  string video_id = 1;                           // UUID of the video
+  string worker_id = 2;                          // Worker instance identifier
+  google.protobuf.Timestamp started_at = 3;      // When processing started
+}
+
+message MarkVideoProcessingResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Video message - Represents the video entity
+message Video {
+  string id = 1;
+  string file_name = 2;
+  string upload_file_path = 3;
+  string thumbnail_path = 4;
+  string hls_path = 5;
+  string original_format = 6;
+  string upload_status = 7;
+  int32 duration = 8;
+  string video_uploader_id = 9;
+  string title = 10;
+  string description = 11;
+  int32 views_count = 12;
+  bool is_active = 13;
+  google.protobuf.Timestamp processing_started_at = 14;
+  google.protobuf.Timestamp processing_completed_at = 15;
+  string failure_reason = 16;
+  int32 retry_count = 17;
+  google.protobuf.Timestamp created_at = 18;
+  google.protobuf.Timestamp updated_at = 19;
+}

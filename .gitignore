@@ -1,0 +1,11 @@
+# Generated code
+gen/
+*.pb.go
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
