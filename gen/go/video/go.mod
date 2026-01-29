@@ -1,4 +1,4 @@
-module github.com/phnormalguy/tungwong-protos/gen/go/video
+module github.com/Tungwong-Project/tungwong-protos/gen/go/video
 
 go 1.22
 
