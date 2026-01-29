@@ -688,7 +688,7 @@ const file_video_video_service_proto_rawDesc = "" +
 	"\x16VideoManagementService\x12\\\n" +
 	"\x11UpdateVideoStatus\x12\".video.v1.UpdateVideoStatusRequest\x1a#.video.v1.UpdateVideoStatusResponse\x12_\n" +
 	"\x12HandleVideoFailure\x12#.video.v1.HandleVideoFailureRequest\x1a$.video.v1.HandleVideoFailureResponse\x12b\n" +
-	"\x13MarkVideoProcessing\x12$.video.v1.MarkVideoProcessingRequest\x1a%.video.v1.MarkVideoProcessingResponseB@Z>github.com/phnormalguy/tungwong-protos/gen/go/video/v1;videov1b\x06proto3"
+	"\x13MarkVideoProcessing\x12$.video.v1.MarkVideoProcessingRequest\x1a%.video.v1.MarkVideoProcessingResponseBBZ@github.com/Tungwong-Project/tungwong-protos/gen/go/video;videov1b\x06proto3"
 
 var (
 	file_video_video_service_proto_rawDescOnce sync.Once
